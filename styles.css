@@ -1,0 +1,2644 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow: hidden;
+    min-height: 100vh;
+}
+
+.screen {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    display: none;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* Starting Screen */
+.start-screen {
+    background-image: url('assets/images/Background_image.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.game-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 2;
+    width: 100%;
+    max-width: 90vw;
+    padding: 20px;
+}
+
+/* GAME LOGO - FREELY MOVEABLE */
+.game-logo {
+    width: min(470px, 80vw); /* Responsive: 470px on large screens, 80% width on small */
+    height: auto;
+    /* MOVE LOGO ANYWHERE WITH THESE VALUES: */
+    transform: translate(-350px, 0px); /* (X-axis: +right/-left, Y-axis: +down/-up) */
+    margin-bottom: 30px;
+}
+
+/* ADJUST THESE VALUES FOR TITLE TEXT */
+.game-title {
+    color: #2c5aa0;
+    font-size: 48px; /* Change this to make title bigger/smaller */
+    font-weight: bold;
+    margin-bottom: 10px; /* Change this to adjust space below title */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* ADJUST THESE VALUES FOR SUBTITLE TEXT */
+.game-subtitle {
+    color: #4a6fa5;
+    font-size: 24px; /* Change this to make subtitle bigger/smaller */
+    font-weight: 600;
+    margin-bottom: 30px; /* Change this to adjust space below subtitle */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+/* DESCRIPTION TEXT - FREELY MOVEABLE */
+.game-description {
+    color: #1B4285;
+    font-size: clamp(16px, 4vw, 20px); /* Responsive font size */
+    font-weight: 500;
+    line-height: 1.4;
+    max-width: min(500px, 90vw); /* Responsive width */
+    text-align: center;
+    /* MOVE TEXT ANYWHERE WITH THESE VALUES: */
+    transform: translate(-305px, -120px); /* (X-axis: +right/-left, Y-axis: +down/-up) */
+    margin-bottom: 30px;
+}
+
+/* CHALLENGE BUTTON - FREELY MOVEABLE & CUSTOMIZABLE */
+.challenge-button {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    border: none;
+    color: #1B4285;
+    font-family: 'Family Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    /* BUTTON SIZE & SHAPE - CHANGE THESE: */
+    width: 450px; /* BUTTON WIDTH - Change this number to make button wider/narrower */
+    height: 30px; /* BUTTON HEIGHT - Change this number to make button taller/shorter */
+    font-size: clamp(16px, 3vw, 18px); /* TEXT SIZE - Change middle value */
+    border-radius: 8px; /* BOX SHAPE - Low number = more rectangular, high = more rounded */
+    
+    /* MOVE BUTTON ANYWHERE WITH THESE VALUES: */
+    transform: translate(-310px, -140px); /* (X-axis: +right/-left, Y-axis: +down/-up) */
+}
+
+.challenge-button:hover {
+    transform: translate(-310px, -150px); /* FIXED: Uses your button position + 10px up for hover */
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+    background: linear-gradient(135deg, #ffed4e, #ffd700);
+}
+
+.challenge-button:active {
+    transform: translate(-310px, -140px); /* FIXED: Returns to your exact button position */
+}
+
+/* CHARITY WATER LOGO - FREELY MOVEABLE & RESIZABLE */
+.charity-water-logo {
+    position: absolute;
+    /* LOGO POSITION - Change these numbers: */
+    bottom: 0px; /* Distance from bottom - Change this number */
+    left: 0px; /* Distance from left - Change this number */
+    
+    /* LOGO SIZE - Change this number: */
+    width: 280px; /* Make bigger by increasing this number */
+    height: auto;
+    z-index: 3;
+}
+
+/* Game Screen (dummy) */
+.game-screen {
+    background-image: url('assets/images/Background_image.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Translucent overlay on game screen */
+.game-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7); /* White translucent overlay */
+    z-index: 1;
+}
+
+/* Game Screen Logo - Top Left */
+.game-screen-logo {
+    position: absolute;
+    top: -25px; /* Distance from top */
+    left: 0px; /* Distance from left */
+    width: 270px; /* Logo size */
+    height: auto;
+    z-index: 3; /* Above overlay */
+}
+
+/* Game Screen Charity Water Logo - Bottom Left (same as start screen) */
+.game-screen-charity-logo {
+    position: absolute;
+    bottom: 0px; /* Same as start screen */
+    left: 0px; /* Same as start screen */
+    width: 280px; /* Same size as start screen */
+    height: auto;
+    z-index: 3; /* Above overlay */
+}
+
+/* Reservoir - Centered horizontally */
+.reservoir {
+    position: absolute;
+    bottom: 100px; /* Distance from bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Perfect centering */
+    width: 360px; /* Reservoir size */
+    height: auto;
+    z-index: 2; /* Above overlay, below UI elements */
+}
+
+/* Game Reset Button - top right corner */
+.game-reset-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #FF6B6B, #FF5252);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    z-index: 4;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+}
+
+.game-reset-button:hover {
+    background: linear-gradient(135deg, #FF5252, #FF1744);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+}
+
+/* Secret Dev Button - Hidden (Ctrl+Shift+D to activate) */
+.secret-dev-button {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: rgba(156, 39, 176, 0.8);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    z-index: 4;
+    transition: all 0.3s ease;
+    display: none; /* Hidden by default */
+}
+
+.secret-dev-button:hover {
+    background: rgba(156, 39, 176, 1);
+    transform: translateY(-2px);
+}
+
+/* Secret Timer Button */
+.secret-timer-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #FF8E53, #FF6B6B);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.secret-timer-button:hover {
+    background: linear-gradient(135deg, #FF6B6B, #FF4444);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+/* Game Layout Sections */
+
+/* Top Section - Weather & Progress */
+.top-section {
+    position: absolute;
+    top: 80px; /* POSITION - Distance from top */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%; /* SIZE - Width of section - back to original */
+    height: 80px; /* SIZE - Height of section */
+    z-index: 3;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.weather-panel {
+    background: rgba(255, 255, 255, 0.95);
+    padding: clamp(8px, 1.5vw, 12px);
+    border-radius: clamp(8px, 1.5vw, 10px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 1.5vw, 10px);
+    flex: 0 0 auto;
+    border: 2px solid #E0E0E0;
+    height: 100%;
+    opacity: 0.6;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.weather-info {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(4px, 0.8vw, 6px);
+}
+
+.weather-label {
+    font-size: clamp(9px, 1.5vw, 11px);
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.weather-status {
+    font-size: clamp(11px, 1.8vw, 13px);
+    font-weight: bold;
+    color: #1B4285;
+}
+
+.dice-button {
+    background: #BDBDBD;
+    border: none;
+    border-radius: clamp(6px, 1.2vw, 8px);
+    width: clamp(28px, 4.5vw, 35px);
+    height: clamp(28px, 4.5vw, 35px);
+    font-size: clamp(12px, 2.2vw, 16px);
+    cursor: not-allowed;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+    opacity: 0.5;
+}
+
+.dice-button:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.dice-button:active {
+    transform: none;
+}
+
+.progress-panel {
+    background: rgba(255, 255, 255, 0.95);
+    padding: clamp(8px, 1.5vw, 12px);
+    border-radius: clamp(8px, 1.5vw, 10px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    flex: 1;
+    border: 2px solid #E0E0E0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.progress-label {
+    font-size: clamp(9px, 1.5vw, 11px);
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: clamp(4px, 0.8vw, 6px);
+}
+
+.water-level-container {
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1.2vw, 8px);
+}
+
+.water-level-bar {
+    flex: 1;
+    height: clamp(12px, 2.2vw, 16px);
+    background: #E8F4FD;
+    border-radius: clamp(6px, 1.2vw, 8px);
+    overflow: hidden;
+    border: 1px solid #B3D9F2;
+    position: relative;
+}
+
+.water-level-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4A90E2, #357ABD);
+    border-radius: clamp(6px, 1.2vw, 8px);
+    transition: width 0.5s ease;
+    width: 0%;
+    position: relative;
+}
+
+.water-level-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.water-level-text {
+    font-size: clamp(10px, 1.6vw, 12px);
+    font-weight: bold;
+    color: #1B4285;
+    white-space: nowrap;
+}
+
+/* Timer Panel */
+.timer-panel {
+    background: rgba(255, 255, 255, 0.95);
+    padding: clamp(8px, 1.5vw, 12px);
+    border-radius: clamp(8px, 1.5vw, 10px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    flex: 0 0 auto;
+    border: 2px solid #E0E0E0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 120px;
+}
+
+.timer-label {
+    font-size: clamp(9px, 1.5vw, 11px);
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: clamp(4px, 0.8vw, 6px);
+}
+
+.game-timer {
+    font-size: clamp(14px, 2.2vw, 18px);
+    font-weight: bold;
+    color: #4A90E2;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* Left Section - Rules */
+.left-section {
+    position: absolute;
+    top: 180px; /* POSITION - Distance from top */
+    left: 20px; /* POSITION - Distance from left */
+    width: 383px; /* SIZE - Width of section (510 * 0.75 = 25% smaller) */
+    height: 580px; /* SIZE - Height of section (increased by 70px for extra rule) */
+    z-index: 3;
+}
+
+.rules-panel {
+    background: #F5F5DC; /* Beige background color */
+    border: 2px solid #1B4285;
+    border-radius: 17px; /* Same as tools panel */
+    padding: 26px; /* Same as tools panel */
+    color: #1B4285;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.rules-panel h3 {
+    margin: 0 0 15px 0;
+    font-size: 27px; /* Match tools header */
+    font-weight: bold;
+    color: #1B4285;
+    text-align: center;
+    border-bottom: 2px solid #1B4285;
+    padding-bottom: 17px;
+}
+
+.rules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Increased gap between rules */
+    flex: 1;
+}
+
+.rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    border-left: 4px solid #4A90E2;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.rule-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.rule-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.rule-content {
+    flex: 1;
+}
+
+.rule-content h4 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.2;
+}
+
+.rule-content p {
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+    line-height: 1.3;
+}
+
+/* Right Section - Tools */
+.right-section {
+    position: absolute;
+    top: 180px; /* POSITION - Distance from top */
+    right: 20px; /* POSITION - Distance from right */
+    width: 510px; /* SIZE - Width of section (300 * 1.7) */
+    height: 680px; /* SIZE - Height of section (400 * 1.7) */
+    z-index: 3;
+}
+
+.tools-panel {
+    background: #F5F5DC; /* Beige background color */
+    border: 2px solid #1B4285;
+    border-radius: 17px; /* 10 * 1.7 */
+    padding: 26px; /* 15 * 1.7 */
+    color: #1B4285;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* Tools Header */
+.tools-header {
+    text-align: center;
+    margin-bottom: 26px; /* 15 * 1.7 */
+    border-bottom: 2px solid #1B4285; /* 1 * 2 for visibility */
+    padding-bottom: 17px; /* 10 * 1.7 */
+}
+
+.tools-header h3 {
+    font-size: 27px; /* 16 * 1.7 */
+    font-weight: bold;
+    margin: 0 0 9px 0; /* 5 * 1.7 */
+    color: #1B4285;
+}
+
+.tools-header p {
+    font-size: 19px; /* 11 * 1.7 */
+    margin: 0;
+    color: #666;
+    font-style: italic;
+}
+
+/* Tool Items */
+.tool-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* 12 * 1.7 */
+    padding: 14px; /* 8 * 1.7 */
+    border-radius: 14px; /* 8 * 1.7 */
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid #ddd; /* 1 * 2 for visibility */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tool-item:hover {
+    background: rgba(74, 144, 226, 0.15); /* Light blue background */
+    border-color: #4A90E2; /* Blue border */
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3); /* Blue shadow */
+}
+
+.tool-item.emergency {
+    border: 2px solid #999;
+    background: rgba(153, 153, 153, 0.1);
+    opacity: 0.6;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.tool-item.emergency:hover {
+    background: rgba(153, 153, 153, 0.2);
+    border-color: #777;
+}
+
+.tool-item.emergency:hover::after {
+    content: "Coming Soon";
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Tool Icons */
+.tool-icon {
+    width: 68px; /* 40 * 1.7 */
+    height: 68px; /* 40 * 1.7 */
+    margin-right: 17px; /* 10 * 1.7 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 50%;
+    border: 3px solid #1B4285; /* 2 * 1.5 for visibility */
+    flex-shrink: 0;
+}
+
+.tool-icon img {
+    width: 55px; /* Larger to match emergency quiz icon */
+    height: 55px; /* Larger to match emergency quiz icon */
+    object-fit: contain;
+}
+
+.emergency .tool-icon {
+    border-color: #FF6B6B;
+    background: rgba(255, 107, 107, 0.1);
+}
+
+/* Tool Info */
+.tool-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.tool-info h4 {
+    font-size: 20px; /* 12 * 1.7 */
+    font-weight: bold;
+    margin: 0 0 3px 0; /* 2 * 1.5 */
+    color: #1B4285;
+    line-height: 1.2;
+}
+
+.tool-info p {
+    font-size: 17px; /* 10 * 1.7 */
+    margin: 0 0 7px 0; /* 4 * 1.7 */
+    color: #666;
+    line-height: 1.2;
+}
+
+/* Tool Status */
+.tool-status {
+    font-size: 15px; /* 9 * 1.7 */
+    padding: 3px 10px; /* 2*1.5 and 6*1.7 */
+    border-radius: 17px; /* 10 * 1.7 */
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.9px; /* 0.5 * 1.8 */
+}
+
+.tool-status.available {
+    background: #4CAF50;
+    color: white;
+}
+
+.tool-status.in-use {
+    background: #FF9800;
+    color: white;
+}
+
+.tool-status.ready {
+    background: #2196F3;
+    color: white;
+}
+
+.tool-status.alert {
+    background: #FF6B6B;
+    color: white;
+}
+
+/* Water Catchment Zone - Center Area (matching Figma) */
+.water-catchment-zone {
+    position: absolute;
+    top: 180px; /* POSITION - Distance from top */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px; /* SIZE - Width of zone */
+    height: 120px; /* SIZE - Height of zone (shorter to match Figma) */
+    border: 2px dashed #4A90E2;
+    border-radius: 15px;
+    background: #E6F7FF; /* Light blue background */
+    z-index: 2;
+    display: flex; /* For horizontal alignment */
+    justify-content: space-around; /* Space drops evenly */
+    align-items: center; /* Center vertically */
+    padding: 0 20px;
+}
+
+/* Water Drop Styles - Teardrop Shape */
+.water-drop {
+    width: 60px;
+    height: 80px;
+    cursor: pointer;
+    z-index: 4;
+    transition: all 0.3s ease;
+    border-radius: 50% 0 50% 50%; /* Proper teardrop shape */
+    transform: rotate(-45deg); /* Rotate to point downward like a teardrop */
+    display: inline-flex;
+    margin: 0 15px;
+    position: relative;
+}
+
+.water-drop:hover {
+    transform: rotate(-45deg) scale(1.1);
+}
+
+/* Clean Water Drop - Natural Clear Blue */
+.water-drop.clean {
+    background: linear-gradient(135deg, #E3F2FD 0%, #90CAF9 50%, #42A5F5 100%);
+    border: 2px solid #1976D2;
+    box-shadow: 0 4px 12px rgba(66, 165, 245, 0.3);
+}
+
+/* Clean water drop shine */
+.water-drop.clean::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 25%;
+    height: 25%;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    transform: rotate(45deg);
+}
+
+/* Polluted Water Drop - Noticeably Murky (Fake Clean) */
+.water-drop.polluted {
+    background: linear-gradient(135deg, #E0F0FF 0%, #A8D0F0 30%, #7BB3D9 60%, #5A9BD4 100%);
+    border: 2px solid #4A7BA7;
+    box-shadow: 0 4px 12px rgba(74, 123, 167, 0.35);
+}
+
+/* Polluted water drop shine */
+.water-drop.polluted::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 25%;
+    height: 25%;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    transform: rotate(45deg);
+}
+
+/* Contaminated Water Drop - Murky Brown/Yellow */
+.water-drop.contaminated {
+    background: linear-gradient(135deg, #D4AF37 0%, #B8860B 30%, #8B7355 70%, #654321 100%);
+    border: 2px solid #8B4513;
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
+    overflow: hidden;
+}
+
+/* Bacteria emoji inside contaminated drop */
+.water-drop.contaminated::before {
+    content: '🦠';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    font-size: 24px;
+    z-index: 2;
+}
+
+/* Toxic/Death Water Drop - Dark Polluted */
+.water-drop.toxic {
+    background: linear-gradient(135deg, #2F4F4F 0%, #696969 30%, #556B2F 50%, #2F2F2F 100%);
+    border: 2px solid #1C1C1C;
+    box-shadow: 0 4px 12px rgba(47, 79, 79, 0.5);
+}
+
+/* Skull emoji inside toxic drop */
+.water-drop.toxic::before {
+    content: '💀';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    font-size: 24px;
+    z-index: 2;
+}
+
+/* Toxic water drop shine */
+.water-drop.toxic::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 20%;
+    height: 20%;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    transform: rotate(45deg);
+}
+
+/* Shake animation for invalid drops */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Tool Dialog Styles */
+.tool-dialog {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialog-content {
+    background: #F5F5DC;
+    border: 3px solid #1B4285;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80%;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: dialogSlideIn 0.3s ease-out;
+}
+
+@keyframes dialogSlideIn {
+    from {
+        transform: scale(0.8) translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+.dialog-header {
+    background: #1B4285;
+    color: white;
+    padding: clamp(8px, 1.5vw, 10px) clamp(15px, 3vw, 20px); /* Even slimmer vertical padding */
+    border-radius: 17px 17px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dialog-header h2 {
+    margin: 0;
+    font-size: clamp(20px, 3.5vw, 26px); /* Bigger font size to fill space better */
+    font-weight: bold;
+}
+
+.header-charity-logo {
+    width: clamp(90px, 11vw, 120px); /* Bigger charity logo to fill space better */
+    height: clamp(90px, 11vw, 120px); /* Bigger charity logo to fill space better */
+    object-fit: contain;
+    filter: brightness(0) invert(1); /* Make it white */
+}
+
+.dialog-body {
+    padding: 30px;
+    color: #1B4285;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 200px;
+    display: block; /* Changed from flex to block for proper vertical stacking */
+}
+
+.dialog-body p {
+    margin: 0;
+    text-align: center;
+    font-style: italic;
+    color: #666;
+}
+
+/* Microscope Dialog Specific Styles - Fully Responsive */
+.microscope-content {
+    max-width: min(90vw, 700px);
+    width: clamp(320px, 90vw, 700px);
+    max-height: 150vh;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+.dialog-header .header-left {
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 2.5vw, 18px); /* Slightly bigger gap for better spacing */
+}
+
+.header-icon {
+    width: clamp(45px, 7vw, 55px); /* Bigger icons to fill space better */
+    height: clamp(45px, 7vw, 55px); /* Bigger icons to fill space better */
+    object-fit: contain;
+    transform: scale(1);
+    transition: transform 0.2s ease;
+}
+
+.microscope-body {
+    padding: clamp(15px, 3vw, 25px);
+    min-height: auto;
+}
+
+.analysis-container {
+    display: flex;
+    gap: clamp(15px, 4vw, 30px);
+    margin-bottom: clamp(10px, 2vw, 18px); /* Reduced margin to push collect button up */
+    align-items: flex-start;
+    flex-direction: row;
+}
+
+.sample-area {
+    flex: 0.7; /* Made smaller - was flex: 1 */
+    border: clamp(1px, 0.2vw, 2px) dashed #4A90E2;
+    border-radius: clamp(10px, 2vw, 15px);
+    padding: clamp(15px, 3vw, 25px); /* Reduced padding */
+    background: #F8FBFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: clamp(120px, 20vh, 160px); /* Reduced height */
+    aspect-ratio: 1;
+}
+
+.sample-drop {
+    /* Water drop will be styled dynamically */
+}
+
+/* Removed all results-area CSS - now using existing process-section styling */
+
+.dialog-buttons {
+    display: flex;
+    gap: clamp(15px, 3vw, 20px);
+    justify-content: center;
+    margin-top: clamp(20px, 4vw, 30px);
+    width: 100%; /* Ensure full width */
+    clear: both; /* Clear any floats */
+}
+
+.collect-btn {
+    flex: 1;
+    background: linear-gradient(135deg, #FF9800, #F57C00);
+    border: none;
+    color: white;
+    padding: clamp(12px, 2vw, 15px) clamp(20px, 4vw, 30px);
+    font-size: clamp(14px, 2.2vw, 16px);
+    font-weight: bold;
+    border-radius: clamp(20px, 3vw, 25px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: clamp(0.5px, 0.1vw, 1px);
+}
+
+.dialog-buttons .cancel-btn {
+    flex: 1;
+    background: #9E9E9E;
+    color: white;
+    border: none;
+    padding: clamp(12px, 2vw, 15px) clamp(20px, 4vw, 30px);
+    border-radius: clamp(20px, 3vw, 25px);
+    font-size: clamp(14px, 2.2vw, 16px);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: clamp(0.5px, 0.1vw, 1px);
+}
+
+.collect-btn:hover {
+    background: linear-gradient(135deg, #F57C00, #E65100);
+    transform: scale(1.02) translateY(-2px);
+    box-shadow: 0 clamp(2px, 0.5vw, 4px) clamp(8px, 1.5vw, 12px) rgba(255, 152, 0, 0.4);
+}
+
+.dialog-buttons .cancel-btn:hover {
+    background: #757575;
+    transform: scale(1.02) translateY(-2px);
+    box-shadow: 0 clamp(2px, 0.5vw, 4px) clamp(8px, 1.5vw, 12px) rgba(117, 117, 117, 0.4);
+}
+
+/* Disabled button state */
+.collect-btn:disabled {
+    background: #BDBDBD !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.collect-btn:disabled:hover {
+    background: #BDBDBD !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Water drops in sample areas */
+.sample-drop .water-drop {
+    width: clamp(40px, 8vw, 60px);
+    height: clamp(40px, 8vw, 60px);
+    border-radius: 50%;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.sample-drop .water-drop:hover {
+    transform: scale(1.1);
+}
+
+/* Clickable water drops in sample area */
+.sample-drop .water-drop[style*="cursor: pointer"] {
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 10px rgba(74, 144, 226, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(74, 144, 226, 0.8); }
+    100% { box-shadow: 0 0 10px rgba(74, 144, 226, 0.5); }
+}
+
+/* Removed old button styling - now using dialog-buttons approach */
+
+/* Removed problematic high-specificity overrides */
+
+/* Responsive Breakpoints for Microscope Dialog - Simplified */
+@media (max-width: 768px) {
+    .microscope-content {
+        width: clamp(280px, 95vw, 500px);
+        transform: scale(0.95);
+    }
+    
+    .header-icon {
+        width: clamp(38px, 7vw, 45px); /* Bigger for mobile to fill space */
+        height: clamp(38px, 7vw, 45px); /* Bigger for mobile to fill space */
+    }
+}
+
+@media (max-width: 480px) {
+    .microscope-content {
+        width: clamp(260px, 98vw, 400px);
+        transform: scale(0.9);
+        max-height: 95vh;
+    }
+    
+    .results-area h3 {
+        font-size: clamp(14px, 3vw, 16px);
+    }
+    
+    .collect-btn {
+        padding: clamp(10px, 2.5vw, 12px) clamp(15px, 3vw, 20px);
+        font-size: clamp(12px, 2.5vw, 14px);
+    }
+}
+
+@media (min-width: 1200px) {
+    .microscope-content {
+        transform: scale(1.05);
+    }
+    
+    .header-icon {
+        width: clamp(50px, 6vw, 65px); /* Bigger for desktop to fill space */
+        height: clamp(50px, 6vw, 65px); /* Bigger for desktop to fill space */
+    }
+}
+
+/* Filter Dialog Styles - Green Theme */
+.filter-content {
+    max-width: min(90vw, 700px);
+    width: clamp(320px, 90vw, 700px);
+    max-height: 150vh;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+.filter-header {
+    background: linear-gradient(135deg, #2E7D32, #1B5E20); /* Darker green for better contrast */
+}
+
+.filter-body {
+    padding: clamp(15px, 3vw, 25px);
+    min-height: auto;
+}
+
+.filtration-container {
+    margin-bottom: clamp(15px, 3vw, 25px);
+}
+
+.before-after-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: clamp(20px, 4vw, 30px);
+    gap: clamp(15px, 3vw, 20px);
+}
+
+.water-sample {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(8px, 1.5vw, 10px);
+}
+
+.water-sample label {
+    font-size: clamp(12px, 2vw, 14px);
+    font-weight: bold;
+    color: #1B4285;
+}
+
+.filter-device {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(10px, 2vw, 20px);
+}
+
+.filter-layers {
+    width: clamp(60px, 8vw, 80px);
+    height: clamp(80px, 12vw, 120px);
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 8px;
+}
+
+.filter-layer {
+    height: clamp(8px, 1.5vw, 12px);
+    background: linear-gradient(90deg, #4CAF50, #81C784);
+    border-radius: 4px;
+    margin: 2px 0;
+}
+
+.process-section h3 {
+    font-size: clamp(16px, 2.5vw, 18px);
+    color: #1B4285;
+    margin-bottom: clamp(8px, 1.5vw, 12px); /* Reduced margin to make more compact */
+    font-style: italic;
+}
+
+.process-status {
+    margin-bottom: clamp(6px, 1.2vw, 10px); /* Reduced margin to make more compact */
+}
+
+.progress-bar {
+    width: 100%;
+    height: clamp(16px, 2.5vw, 20px);
+    background: #E0E0E0;
+    border-radius: clamp(8px, 1.5vw, 10px);
+    overflow: hidden;
+    margin: clamp(8px, 1.5vw, 10px) 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4CAF50, #81C784);
+    border-radius: clamp(8px, 1.5vw, 10px);
+    transition: width 0.3s ease;
+}
+
+.time-label {
+    font-size: clamp(12px, 2vw, 14px);
+    color: #666;
+}
+
+.result-status {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 1.5vw, 10px);
+}
+
+.checkmark {
+    color: #4CAF50;
+    font-size: clamp(16px, 2.5vw, 18px);
+    font-weight: bold;
+}
+
+.result-text {
+    color: #4CAF50;
+    font-weight: 500;
+    font-size: clamp(14px, 2.2vw, 16px);
+}
+
+.action-buttons {
+    display: flex;
+    gap: clamp(10px, 2vw, 15px);
+    justify-content: center;
+}
+
+.cancel-btn {
+    background: #9E9E9E;
+    color: white;
+    border: none;
+    padding: clamp(12px, 2vw, 15px) clamp(20px, 4vw, 30px);
+    border-radius: clamp(20px, 3vw, 25px);
+    font-size: clamp(14px, 2.2vw, 16px);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn {
+    background: linear-gradient(135deg, #4CAF50, #45A049);
+    color: white;
+    border: none;
+    padding: clamp(12px, 2vw, 15px) clamp(20px, 4vw, 30px);
+    border-radius: clamp(20px, 3vw, 25px);
+    font-size: clamp(14px, 2.2vw, 16px);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn:hover, .filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Boiling Pot Dialog Styles - Red/Orange Theme */
+.boiling-content {
+    max-width: min(90vw, 700px);
+    width: clamp(320px, 90vw, 700px);
+    max-height: 150vh;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+.boiling-header {
+    background: linear-gradient(135deg, #D84315, #BF360C); /* Darker red/orange for better contrast */
+}
+
+.boiling-body {
+    padding: clamp(15px, 3vw, 25px);
+    min-height: auto;
+}
+
+.boiling-container {
+    margin-bottom: clamp(15px, 3vw, 25px);
+}
+
+.temperature-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: clamp(20px, 4vw, 30px);
+    gap: clamp(15px, 3vw, 20px);
+}
+
+.temperature-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(5px, 1vw, 8px);
+}
+
+.temp-label {
+    font-size: clamp(14px, 2.2vw, 16px);
+    font-weight: bold;
+    color: #FF5722;
+}
+
+.arrow {
+    font-size: clamp(20px, 3vw, 24px);
+    color: #FF5722;
+    font-weight: bold;
+}
+
+.pot-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: clamp(20px, 4vw, 30px);
+}
+
+.boiling-pot {
+    position: relative;
+    width: clamp(80px, 12vw, 120px);
+    height: clamp(80px, 12vw, 120px);
+}
+
+.pot-body {
+    width: 100%;
+    height: 70%;
+    background: #424242;
+    border-radius: 0 0 20px 20px;
+    position: absolute;
+    bottom: 20%;
+}
+
+.water-level {
+    width: 80%;
+    height: 40%;
+    background: #2196F3;
+    border-radius: 0 0 15px 15px;
+    position: absolute;
+    bottom: 25%;
+    left: 10%;
+}
+
+.steam {
+    position: absolute;
+    width: 8px;
+    height: 20px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 50%;
+    animation: steam-rise 2s infinite;
+}
+
+.steam1 {
+    left: 30%;
+    top: 10%;
+    animation-delay: 0s;
+}
+
+.steam2 {
+    left: 60%;
+    top: 15%;
+    animation-delay: 0.5s;
+}
+
+@keyframes steam-rise {
+    0% { opacity: 0; transform: translateY(0); }
+    50% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-20px); }
+}
+
+.flame {
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    width: 60%;
+    height: 25%;
+    background: linear-gradient(45deg, #FF9800, #FF5722);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: flicker 1s infinite alternate;
+}
+
+@keyframes flicker {
+    0% { transform: scale(1) rotate(-2deg); }
+    100% { transform: scale(1.1) rotate(2deg); }
+}
+
+.boiling-progress {
+    background: linear-gradient(90deg, #FF5722, #FF9800);
+}
+
+.warning-icon {
+    color: #FF9800;
+    font-size: clamp(16px, 2.5vw, 18px);
+}
+
+.info-text {
+    margin-top: clamp(10px, 2vw, 15px);
+    font-size: clamp(12px, 2vw, 14px);
+    color: #666;
+    font-style: italic;
+}
+
+.start-boiling-btn {
+    background: linear-gradient(135deg, #FF5722, #E64A19);
+    color: white;
+    border: none;
+    padding: clamp(12px, 2vw, 15px) clamp(20px, 4vw, 30px);
+    border-radius: clamp(20px, 3vw, 25px);
+    font-size: clamp(14px, 2.2vw, 16px);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.start-boiling-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 87, 34, 0.4);
+}
+
+/* Emergency Quiz Dialog Styles - Purple Theme */
+.quiz-content {
+    max-width: min(90vw, 800px);
+    width: clamp(320px, 90vw, 800px);
+}
+
+.quiz-header {
+    background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+}
+
+.quiz-body {
+    padding: clamp(15px, 3vw, 25px);
+}
+
+.quiz-container {
+    margin-bottom: clamp(15px, 3vw, 25px);
+}
+
+.alert-section {
+    margin-bottom: clamp(20px, 4vw, 30px);
+}
+
+.alert-banner {
+    background: #FFF3CD;
+    border: 2px solid #FFE082;
+    border-radius: clamp(8px, 1.5vw, 10px);
+    padding: clamp(12px, 2vw, 15px);
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 1.5vw, 10px);
+    font-size: clamp(14px, 2.2vw, 16px);
+    color: #856404;
+}
+
+.alert-icon {
+    font-size: clamp(16px, 2.5vw, 18px);
+    color: #FF9800;
+}
+
+.question-section {
+    background: #F8F9FA;
+    border-radius: clamp(10px, 2vw, 15px);
+    padding: clamp(15px, 3vw, 20px);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: clamp(15px, 3vw, 20px);
+}
+
+.question-number {
+    font-size: clamp(14px, 2.2vw, 16px);
+    font-weight: bold;
+    color: #9C27B0;
+}
+
+.progress-dots {
+    display: flex;
+    gap: clamp(5px, 1vw, 8px);
+}
+
+.dot {
+    width: clamp(8px, 1.5vw, 10px);
+    height: clamp(8px, 1.5vw, 10px);
+    border-radius: 50%;
+    background: #E0E0E0;
+}
+
+.dot.active {
+    background: #9C27B0;
+}
+
+.question-content h3 {
+    font-size: clamp(16px, 2.5vw, 18px);
+    color: #1B4285;
+    margin-bottom: clamp(10px, 2vw, 15px);
+}
+
+.question-context {
+    font-size: clamp(12px, 2vw, 14px);
+    color: #666;
+    margin-bottom: clamp(15px, 3vw, 20px);
+    font-style: italic;
+}
+
+.answer-options {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 2vw, 12px);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 1.5vw, 10px);
+    padding: clamp(10px, 2vw, 12px);
+    border: 2px solid #E0E0E0;
+    border-radius: clamp(8px, 1.5vw, 10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option:hover {
+    border-color: #9C27B0;
+    background: rgba(156, 39, 176, 0.05);
+}
+
+.option input[type="radio"] {
+    margin: 0;
+}
+
+.option-letter {
+    font-weight: bold;
+    color: #9C27B0;
+    font-size: clamp(14px, 2.2vw, 16px);
+}
+
+.option-text {
+    font-size: clamp(14px, 2.2vw, 16px);
+    color: #1B4285;
+}
+
+.quiz-footer {
+    margin-top: clamp(15px, 3vw, 20px);
+    text-align: center;
+}
+
+.rewards-text {
+    font-size: clamp(14px, 2.2vw, 16px);
+    color: #2196F3;
+    font-weight: 500;
+}
+
+.skip-btn {
+    background: #9E9E9E;
+    color: white;
+    border: none;
+    padding: clamp(12px, 2vw, 15px) clamp(20px, 4vw, 30px);
+    border-radius: clamp(20px, 3vw, 25px);
+    font-size: clamp(14px, 2.2vw, 16px);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+    color: white;
+    border: none;
+    padding: clamp(12px, 2vw, 15px) clamp(20px, 4vw, 30px);
+    border-radius: clamp(20px, 3vw, 25px);
+    font-size: clamp(14px, 2.2vw, 16px);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.skip-btn:hover, .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 768px) {
+    .game-content {
+        padding: 15px;
+    }
+    
+    .game-logo {
+        width: 70vw;
+        margin-bottom: 20px;
+    }
+    
+    .game-description {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+    
+    .challenge-button {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-logo {
+        width: 80vw;
+        margin-bottom: 15px;
+    }
+    
+    .game-description {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+    
+    .challenge-button {
+        padding: 10px 25px;
+        font-size: 14px;
+    }
+    
+    .charity-water-logo {
+        width: 80px;
+        bottom: 15px;
+        left: 15px;
+    }
+}
+
+/* Rule Notification Popup */
+.rule-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 0;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.5s ease;
+    animation: notificationSlideIn 0.5s ease-out;
+}
+
+.notification-content {
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-width: 400px;
+    max-width: 500px;
+}
+
+.notification-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: white;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.notification-text h3 {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #2c5aa0;
+}
+
+.notification-text h4 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.notification-text p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.real-world-fact {
+    margin-top: 12px;
+    padding: 10px;
+    background: rgba(44, 90, 160, 0.1);
+    border-left: 3px solid #2c5aa0;
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #2c5aa0;
+}
+
+.educational-content {
+    background: rgba(44, 90, 160, 0.1);
+    border: 1px solid rgba(44, 90, 160, 0.2);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 15px;
+}
+
+.educational-content p {
+    margin: 0;
+    font-size: 14px;
+    color: #2c5aa0;
+    line-height: 1.4;
+    text-align: left;
+    font-style: normal;
+}
+
+@keyframes notificationSlideIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Win Screen Styles */
+.win-screen {
+    background-image: url('assets/images/Background_image.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 20px;
+}
+
+.win-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(74, 144, 226, 0.15); /* Light blue overlay */
+    z-index: 1;
+}
+
+.win-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 2;
+    width: 100%;
+    max-width: 600px;
+    gap: 30px;
+}
+
+.mission-complete-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.checkmark-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #4CAF50, #45A049);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+    animation: checkmarkPulse 2s ease-in-out infinite;
+}
+
+@keyframes checkmarkPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.mission-complete-header h1 {
+    font-size: clamp(32px, 6vw, 48px);
+    font-weight: bold;
+    color: #1B4285;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.mission-complete-header p {
+    font-size: clamp(18px, 3vw, 24px);
+    color: #2c5aa0;
+    margin: 0;
+    font-weight: 500;
+}
+
+.win-charity-logo {
+    width: clamp(180px, 30vw, 280px); /* Made significantly bigger */
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+.impact-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    border: 2px solid rgba(27, 66, 133, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.impact-card h2 {
+    font-size: clamp(24px, 4vw, 32px);
+    color: #1B4285;
+    margin: 0 0 20px 0;
+    font-weight: bold;
+}
+
+.impact-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.impact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(74, 144, 226, 0.05);
+    border-radius: 10px;
+    border-left: 4px solid #4A90E2;
+}
+
+.impact-icon {
+    font-size: 24px;
+    width: 32px;
+    text-align: center;
+}
+
+.impact-text {
+    font-size: clamp(16px, 2.5vw, 18px);
+    color: #333;
+    font-weight: 500;
+}
+
+.real-impact-section {
+    background: rgba(44, 90, 160, 0.1);
+    border: 1px solid rgba(44, 90, 160, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.real-impact-section h3 {
+    font-size: clamp(18px, 3vw, 22px);
+    color: #2c5aa0;
+    margin: 0 0 10px 0;
+    font-weight: bold;
+}
+
+.real-impact-section p {
+    font-size: clamp(14px, 2.2vw, 16px);
+    color: #2c5aa0;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.real-impact-section a {
+    color: #1B4285;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.real-impact-section a:hover {
+    color: #4A90E2;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.play-again-btn {
+    background: linear-gradient(135deg, #9E9E9E, #757575);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: clamp(16px, 2.5vw, 18px);
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(158, 158, 158, 0.3);
+}
+
+.play-again-btn:hover {
+    background: linear-gradient(135deg, #757575, #616161);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(158, 158, 158, 0.4);
+}
+
+.learn-more-btn {
+    background: linear-gradient(135deg, #4A90E2, #357ABD);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: clamp(16px, 2.5vw, 18px);
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+.learn-more-btn:hover {
+    background: linear-gradient(135deg, #357ABD, #2E6DA4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+}
+
+.win-game-logo {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: clamp(150px, 25vw, 250px);
+    height: auto;
+    z-index: 3;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+/* Emoji Confetti Celebration Animation */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.emoji-confetti {
+    position: absolute;
+    font-size: 24px;
+    user-select: none;
+    animation: emoji-fall 4s linear infinite;
+}
+
+/* Faster falling emojis */
+.emoji-confetti.fast {
+    animation: emoji-fall-fast 2.5s linear infinite;
+}
+
+/* Slower falling emojis */
+.emoji-confetti.slow {
+    animation: emoji-fall-slow 6s linear infinite;
+}
+
+@keyframes emoji-fall {
+    0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(calc(100vh + 50px)) rotate(360deg);
+        opacity: 0.8;
+    }
+}
+
+@keyframes emoji-fall-fast {
+    0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(calc(100vh + 50px)) rotate(540deg);
+        opacity: 0.6;
+    }
+}
+
+@keyframes emoji-fall-slow {
+    0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(calc(100vh + 50px)) rotate(180deg);
+        opacity: 0.9;
+    }
+}
+
+/* Celebration burst effect */
+.celebration-burst {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    pointer-events: none;
+}
+
+.burst-particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #FFD700;
+    border-radius: 50%;
+    animation: burst-out 1.5s ease-out forwards;
+}
+
+@keyframes burst-out {
+    0% {
+        transform: scale(0) translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) translate(var(--x), var(--y));
+        opacity: 0;
+    }
+}
+
+/* Responsive adjustments for win screen */
+@media (max-width: 768px) {
+    .win-content {
+        gap: 20px;
+        padding: 0 15px;
+    }
+    
+    .impact-card {
+        padding: 20px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .play-again-btn, .learn-more-btn {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .win-charity-logo {
+        width: clamp(150px, 35vw, 220px); /* Adjust for mobile */
+    }
+}
+
+/* Loss Screen */
+.loss-screen {
+    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.loss-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('assets/images/background.jpg') center/cover;
+    opacity: 0.3;
+    z-index: 1;
+}
+
+.loss-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 800px;
+    width: 100%;
+    z-index: 2;
+    position: relative;
+}
+
+.crisis-header {
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.warning-icon {
+    font-size: clamp(60px, 10vw, 80px);
+    margin-bottom: 15px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.crisis-header h1 {
+    font-size: clamp(36px, 6vw, 48px);
+    margin: 0 0 10px 0;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.crisis-header p {
+    font-size: clamp(16px, 2.5vw, 20px);
+    margin: 0 0 20px 0;
+    opacity: 0.9;
+}
+
+.loss-charity-logo {
+    width: clamp(200px, 40vw, 280px);
+    height: auto;
+    filter: brightness(0) invert(1);
+    margin-top: 10px;
+}
+
+.crisis-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    border: 2px solid rgba(255, 107, 107, 0.2);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.crisis-card h2 {
+    font-size: clamp(20px, 3.5vw, 26px);
+    color: #D32F2F;
+    margin: 0 0 20px 0;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.crisis-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.crisis-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    border-left: 4px solid #D32F2F;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.crisis-icon {
+    font-size: clamp(18px, 3vw, 22px);
+    flex-shrink: 0;
+}
+
+.crisis-text {
+    font-size: clamp(14px, 2.2vw, 16px);
+    color: #1A1A1A;
+    text-align: left;
+    flex: 1;
+    font-weight: 500;
+}
+
+.reality-section {
+    background: #FFFFFF;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 25px;
+    border: 2px solid #E3F2FD;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reality-section h3 {
+    font-size: clamp(18px, 3vw, 22px);
+    color: #D32F2F;
+    margin: 0 0 10px 0;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.reality-section p {
+    font-size: clamp(14px, 2.2vw, 16px);
+    color: #1A1A1A;
+    margin: 0;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.try-again-btn {
+    background: linear-gradient(135deg, #4A90E2, #357ABD);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: clamp(16px, 2.5vw, 18px);
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+.try-again-btn:hover {
+    background: linear-gradient(135deg, #357ABD, #2E6DA4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+}
+
+.how-to-help-btn {
+    background: linear-gradient(135deg, #FF8E53, #FF6B6B);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: clamp(16px, 2.5vw, 18px);
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.how-to-help-btn:hover {
+    background: linear-gradient(135deg, #FF6B6B, #FF4444);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.loss-game-logo {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: clamp(150px, 25vw, 250px);
+    height: auto;
+    z-index: 3;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)) brightness(0) invert(1);
+}
+
+/* Responsive adjustments for loss screen */
+@media (max-width: 768px) {
+    .loss-content {
+        gap: 20px;
+        padding: 0 15px;
+    }
+    
+    .crisis-card {
+        padding: 20px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .try-again-btn, .how-to-help-btn {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .loss-charity-logo {
+        width: clamp(150px, 35vw, 220px);
+    }
+} 
+
+@media (min-width: 768px) {
+    .win-screen, .loss-screen {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .win-content, .loss-content {
+        margin: 0 auto;
+    }
+}
+
+/* Add comprehensive responsive styles for game screen */
+@media (max-width: 1200px) {
+    .left-section {
+        width: 300px;
+        height: 500px;
+    }
+    
+    .right-section {
+        width: 400px;
+        height: 600px;
+    }
+    
+    .top-section {
+        width: 70%;
+    }
+    
+    .reservoir {
+        width: 300px;
+        bottom: 80px;
+    }
+}
+
+@media (max-width: 992px) {
+    .left-section {
+        width: 250px;
+        height: 450px;
+    }
+    
+    .right-section {
+        width: 300px;
+        height: 550px;
+    }
+    
+    .top-section {
+        width: 80%;
+    }
+    
+    .reservoir {
+        width: 250px;
+        bottom: 60px;
+    }
+    
+    .rule-item {
+        padding: 8px;
+    }
+    
+    .tool-item {
+        padding: 10px;
+    }
+    
+    .tool-icon {
+        width: 50px;
+        height: 50px;
+        margin-right: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .left-section {
+        position: static;
+        width: calc(100% - 40px);
+        height: auto;
+        max-height: 300px;
+        margin: 80px 20px 20px 20px;
+    }
+    
+    .right-section {
+        position: static;
+        width: calc(100% - 40px);
+        height: auto;
+        max-height: 300px;
+        margin: 20px;
+    }
+    
+    .top-section {
+        width: 90%;
+        top: 60px;
+    }
+    
+    .reservoir {
+        width: 200px;
+        bottom: 40px;
+    }
+    
+    .game-screen-logo {
+        width: 200px;
+    }
+    
+    .game-screen-charity-logo {
+        width: 200px;
+    }
+    
+    .water-catchment-zone {
+        height: 100%;
+        padding-top: 650px;
+    }
+    
+    .notification-content {
+        min-width: 300px;
+        padding: 15px;
+    }
+    
+    .tool-dialog {
+        padding: 10px;
+    }
+    
+    .dialog-content {
+        width: 95%;
+        max-width: 500px;
+    }
+}
+
+@media (max-width: 576px) {
+    .left-section {
+        margin: 60px 10px 10px 10px;
+        width: calc(100% - 20px);
+        max-height: 250px;
+    }
+    
+    .right-section {
+        margin: 10px;
+        width: calc(100% - 20px);
+        max-height: 250px;
+    }
+    
+    .top-section {
+        flex-direction: column;
+        gap: 10px;
+        height: auto;
+    }
+    
+    .reservoir {
+        width: 180px;
+        bottom: 30px;
+    }
+    
+    .game-screen-logo {
+        width: 150px;
+        top: -15px;
+    }
+    
+    .game-screen-charity-logo {
+        width: 150px;
+    }
+    
+    .water-catchment-zone {
+        padding-top: 550px;
+    }
+    
+    .notification-content {
+        min-width: 250px;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .notification-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    
+    .dialog-content {
+        width: 100%;
+    }
+    
+    .water-drop {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Ensure dialogs are responsive */
+@media (max-width: 768px) {
+    .dialog-content {
+        padding: 15px;
+    }
+    
+    .dialog-header {
+        padding: 10px;
+    }
+    
+    .dialog-header h2 {
+        font-size: 18px;
+    }
+    
+    .dialog-body {
+        padding: 10px;
+    }
+    
+    .analysis-container {
+        flex-direction: column;
+    }
+    
+    .sample-area {
+        margin-bottom: 15px;
+    }
+}
+
+/* Make water drops responsive */
+@media (max-width: 768px) {
+    .water-drop {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .water-catchment-zone {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}
+
+/* Make game screen scroll properly on small screens */
+@media (max-width: 768px) {
+    .game-screen {
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+        padding-bottom: 100px;
+    }
+    
+    .rules-panel, .tools-panel {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+}
+
+/* Improve notification responsiveness */
+@media (max-width: 576px) {
+    .rule-notification {
+        width: 90%;
+        max-width: 350px;
+    }
+    
+    .notification-content {
+        padding: 15px;
+    }
+    
+    .notification-text h3 {
+        font-size: 18px;
+    }
+    
+    .notification-text h4 {
+        font-size: 14px;
+    }
+    
+    .notification-text p {
+        font-size: 12px;
+    }
+    
+    .real-world-fact {
+        font-size: 11px;
+        padding: 8px;
+    }
+}
+
+/* Enhance win/loss screen responsiveness */
+@media (max-width: 576px) {
+    .win-screen, .loss-screen {
+        padding: 15px;
+        overflow-y: auto;
+    }
+    
+    .win-content, .loss-content {
+        padding: 10px;
+    }
+    
+    .mission-complete-header, .crisis-header {
+        margin-bottom: 15px;
+    }
+    
+    .checkmark-icon, .warning-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 30px;
+    }
+    
+    .mission-complete-header h1, .crisis-header h1 {
+        font-size: 28px;
+    }
+    
+    .mission-complete-header p, .crisis-header p {
+        font-size: 16px;
+    }
+    
+    .impact-card, .crisis-card {
+        padding: 20px;
+    }
+    
+    .impact-card h2, .crisis-card h2 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+    
+    .impact-item, .crisis-item {
+        padding: 10px;
+    }
+    
+    .impact-icon, .crisis-icon {
+        font-size: 20px;
+    }
+    
+    .impact-text, .crisis-text {
+        font-size: 14px;
+    }
+    
+    .real-impact-section, .reality-section {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .real-impact-section h3, .reality-section h3 {
+        font-size: 18px;
+    }
+    
+    .real-impact-section p, .reality-section p {
+        font-size: 14px;
+    }
+    
+    .win-game-logo, .loss-game-logo {
+        width: 120px;
+        bottom: 15px;
+        left: 15px;
+    }
+    
+    .win-charity-logo, .loss-charity-logo {
+        width: 150px;
+    }
+}
+
+/* Fix dialog overflow on small screens */
+@media (max-width: 576px) {
+    .tool-dialog {
+        align-items: flex-start;
+        padding-top: 20px;
+        overflow-y: auto;
+    }
+    
+    .dialog-content {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+}

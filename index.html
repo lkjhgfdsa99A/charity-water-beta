@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thirst - The Water Struggle</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Starting Screen -->
+    <div class="screen start-screen active" id="startScreen">
+        <div class="game-content">
+            <img src="assets/icons/Gamelogo.png" alt="Thirst Game Logo" class="game-logo">
+            <p class="game-description">
+                Can you secure enough safe water for your family?
+            </p>
+            <button class="challenge-button" onclick="startGame()">Challenge Me!</button>
+        </div>
+        
+        <img src="assets/icons/charitywater logo.png" alt="Charity Water" class="charity-water-logo">
+    </div>
+
+    <!-- Game Screen -->
+    <div class="screen game-screen" id="gameScreen">
+        <!-- Game Logo - Top Left -->
+        <img src="assets/icons/Gamelogo.png" alt="Thirst Game Logo" class="game-screen-logo">
+        
+        <!-- Top Section - Weather & Progress -->
+        <div class="top-section">
+            <div class="weather-panel" title="Coming Soon - Weather system will be available in future updates">
+                <div class="weather-info">
+                    <span class="weather-label">Current Weather</span>
+                    <span class="weather-status" id="weatherStatus">Coming Soon</span>
+                </div>
+                <button class="dice-button" id="diceButton" disabled>🎲</button>
+            </div>
+            <div class="progress-panel">
+                <span class="progress-label">Family Water Reservoir</span>
+                <div class="water-level-container">
+                    <div class="water-level-bar">
+                        <div class="water-level-fill" id="waterLevelFill"></div>
+                    </div>
+                    <span class="water-level-text" id="waterLevelText">0/20 drops</span>
+                </div>
+            </div>
+            <div class="timer-panel">
+                <span class="timer-label">⏰ Time Remaining</span>
+                <div class="game-timer">2:00</div>
+            </div>
+        </div>
+        
+        <!-- Left Section - Rules -->
+        <div class="left-section">
+            <div class="rules-panel">
+                <h3>RULES</h3>
+                <div class="rules-list">
+                    <!-- Rules will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Section - Tools -->
+        <div class="right-section">
+            <div class="tools-panel">
+                <div class="tools-header">
+                    <h3>TOOLS</h3>
+                    <p>Click Tool, then Drag Droplet to Use</p>
+                </div>
+                
+                <div class="tool-item">
+                    <div class="tool-icon">
+                        <img src="assets/icons/microscope.png" alt="Microscope">
+                    </div>
+                    <div class="tool-info">
+                        <h4>Microscope</h4>
+                        <p>Inspect Water for Contaminants</p>
+                        <span class="tool-status available">Available</span>
+                    </div>
+                </div>
+                
+                <div class="tool-item">
+                    <div class="tool-icon">
+                        <img src="assets/icons/filter.png" alt="Filter Device">
+                    </div>
+                    <div class="tool-info">
+                        <h4>Filter Device</h4>
+                        <p>Removes Pollution from Water</p>
+                        <span class="tool-status in-use">In Use (2s)</span>
+                    </div>
+                </div>
+                
+                <div class="tool-item">
+                    <div class="tool-icon">
+                        <img src="assets/icons/pot.png" alt="Boiling Pot">
+                    </div>
+                    <div class="tool-info">
+                        <h4>Boiling Pot</h4>
+                        <p>Kill Bacteria & Contamination</p>
+                        <span class="tool-status ready">Ready</span>
+                    </div>
+                </div>
+                
+                <div class="tool-item emergency">
+                    <div class="tool-icon">
+                        <img src="assets/icons/quizlogo.png" alt="Emergency Quiz">
+                    </div>
+                    <div class="tool-info">
+                        <h4>Emergency Quiz</h4>
+                        <p>Get 3 Bonus Drops</p>
+                        <span class="tool-status alert">Low Water Alert</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Water Catchment Zone (center area) -->
+        <div class="water-catchment-zone">
+            <!-- Water drops will be generated here -->
+        </div>
+        
+        <!-- Reservoir - Centered -->
+        <img src="assets/images/reservoir.png" alt="Water Reservoir" class="reservoir">
+        
+        <!-- Charity Water Logo - Bottom Left -->
+        <img src="assets/icons/charitywater logo.png" alt="Charity Water" class="game-screen-charity-logo">
+        
+        <!-- Game Reset Button -->
+        <button class="game-reset-button" onclick="resetGame()">🔄 Reset Game</button>
+        
+        <!-- Secret Dev Button (Hidden) -->
+        <button class="secret-dev-button" id="secretDevButton" onclick="fillReservoir()">💧 Fill Reservoir</button>
+        
+        <!-- Secret Timer Button (Hidden) -->
+        <button class="secret-timer-button" id="secretTimerButton" onclick="fastTimer()">⏰ Fast Timer</button>
+    </div>
+
+    <!-- Tool Dialogs -->
+    <!-- Microscope Dialog -->
+    <div id="microscope-dialog" class="tool-dialog" onclick="closeDialog('microscope-dialog')">
+        <div class="dialog-content microscope-content" onclick="event.stopPropagation()">
+            <div class="dialog-header microscope-header">
+                <div class="header-left">
+                    <img src="assets/icons/microscope.png" alt="Microscope" class="header-icon">
+                    <h2>Water Analysis</h2>
+                </div>
+                <img src="assets/icons/charitywater logo.png" alt="Charity Water" class="header-charity-logo">
+            </div>
+            <div class="dialog-body microscope-body">
+                <div class="educational-content">
+                    <p><strong>💡 Real World:</strong> In many communities, people have no way to test their water quality. They must trust that clear-looking water is safe, often leading to illness from invisible contaminants.</p>
+                </div>
+                <div class="analysis-container">
+                    <div class="sample-area">
+                        <div class="sample-drop">
+                            <!-- Water drop will be inserted here dynamically -->
+                        </div>
+                    </div>
+                    <div class="process-section">
+                        <h3>Analysis Results:</h3>
+                        <div class="process-status">
+                            <span>Water Quality: Clean</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%;"></div>
+                            </div>
+                            <span class="time-label">Safety Level: 100%</span>
+                        </div>
+                        <div class="result-status">
+                            <span class="checkmark">✓</span>
+                            <span class="result-text">Treatment: None Required</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dialog-buttons">
+                    <button class="cancel-btn" onclick="closeDialog('microscope-dialog')">Cancel</button>
+                    <button class="collect-btn">Collect</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Dialog -->
+    <div id="filter-dialog" class="tool-dialog" onclick="closeDialog('filter-dialog')">
+        <div class="dialog-content filter-content" onclick="event.stopPropagation()">
+            <div class="dialog-header filter-header">
+                <div class="header-left">
+                    <img src="assets/icons/filter.png" alt="Filter" class="header-icon">
+                    <h2>Water Filtration</h2>
+                </div>
+                <img src="assets/icons/charitywater logo.png" alt="Charity Water" class="header-charity-logo">
+            </div>
+            <div class="dialog-body filter-body">
+                <div class="educational-content">
+                    <p><strong>💡 Real World:</strong> Families often walk hours to find cleaner water sources, or spend precious income on basic filtration materials. Many resort to letting water settle in containers or straining it through cloth.</p>
+                </div>
+                <div class="analysis-container">
+                    <div class="sample-area">
+                        <div class="sample-drop">
+                            <!-- Water drop will be inserted here dynamically -->
+                        </div>
+                    </div>
+                    <div class="process-section">
+                        <h3>Filtration Results:</h3>
+                        <div class="process-status">
+                            <span>Status: Removing Pollutants</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%;"></div>
+                            </div>
+                            <span class="time-label">Time: Instant</span>
+                        </div>
+                        <div class="result-status">
+                            <span class="checkmark">✓</span>
+                            <span class="result-text">Pollutants Successfully Removed</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dialog-buttons">
+                    <button class="cancel-btn" onclick="closeDialog('filter-dialog')">Cancel</button>
+                    <button class="collect-btn">Filter Water</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Boiling Pot Dialog -->
+    <div id="boiling-pot-dialog" class="tool-dialog" onclick="closeDialog('boiling-pot-dialog')">
+        <div class="dialog-content boiling-content" onclick="event.stopPropagation()">
+            <div class="dialog-header boiling-header">
+                <div class="header-left">
+                    <img src="assets/icons/pot.png" alt="Boiling Pot" class="header-icon">
+                    <h2>Water Boiling Treatment</h2>
+                </div>
+                <img src="assets/icons/charitywater logo.png" alt="Charity Water" class="header-charity-logo">
+            </div>
+            <div class="dialog-body boiling-body">
+                <div class="educational-content">
+                    <p><strong>💡 Real World:</strong> Collecting fuel for boiling water is often dangerous and time-consuming. Women and children risk their safety gathering wood, and many families can't afford fuel, forcing them to drink unsafe water.</p>
+                </div>
+                <div class="analysis-container">
+                    <div class="sample-area">
+                        <div class="sample-drop">
+                            <!-- Water drop will be inserted here dynamically -->
+                        </div>
+                    </div>
+                    <div class="process-section">
+                        <h3>Boiling Results:</h3>
+                        <div class="process-status">
+                            <span>Temperature: 100°C - Sterilizing</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill boiling-progress" style="width: 90%;"></div>
+                            </div>
+                            <span class="time-label">Time remaining: 2s</span>
+                        </div>
+                        <div class="result-status">
+                            <span class="checkmark">✓</span>
+                            <span class="result-text">Bacteria & Germs Eliminated</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dialog-buttons">
+                    <button class="cancel-btn" onclick="closeDialog('boiling-pot-dialog')">Cancel</button>
+                    <button class="collect-btn">Start Boiling</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Quiz Dialog -->
+    <div id="emergency-quiz-dialog" class="tool-dialog" onclick="closeDialog('emergency-quiz-dialog')">
+        <div class="dialog-content quiz-content" onclick="event.stopPropagation()">
+            <div class="dialog-header quiz-header">
+                <div class="header-left">
+                    <img src="assets/icons/quizlogo.png" alt="Quiz" class="header-icon">
+                    <h2>Emergency Quiz</h2>
+                </div>
+                <button class="close-btn" onclick="closeDialog('emergency-quiz-dialog')">×</button>
+            </div>
+            <div class="dialog-body quiz-body">
+                <div class="quiz-container">
+                    <div class="alert-section">
+                        <div class="alert-banner">
+                            <span class="alert-icon">⚠</span>
+                            <span>Your family is running low on water! Answer questions to earn 3 bonus drops.</span>
+                        </div>
+                    </div>
+                    <div class="question-section">
+                        <div class="question-header">
+                            <span class="question-number">Question 1 of 3</span>
+                            <div class="progress-dots">
+                                <span class="dot active"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </div>
+                        </div>
+                        <div class="question-content">
+                            <h3>How many people worldwide lack access to clean water?</h3>
+                            <p class="question-context">Context: charity: water has helped over 17 million people gain access to clean water.</p>
+                            <div class="answer-options">
+                                <label class="option">
+                                    <input type="radio" name="quiz-answer" value="A">
+                                    <span class="option-letter">A)</span>
+                                    <span class="option-text">500 million people</span>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="quiz-answer" value="B">
+                                    <span class="option-letter">B)</span>
+                                    <span class="option-text">2 billion people</span>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="quiz-answer" value="C">
+                                    <span class="option-letter">C)</span>
+                                    <span class="option-text">1 in 3 people globally</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="quiz-footer">
+                            <span class="rewards-text">Correct answer rewards: 💧 +3</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="skip-btn">Skip Quiz</button>
+                    <button class="submit-btn">Submit Answer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loss Screen -->
+    <div class="screen loss-screen" id="lossScreen" style="display: none;">
+        <div class="loss-content">
+            <!-- Water Crisis Header -->
+            <div class="crisis-header">
+                <div class="warning-icon">⚠️</div>
+                <h1>Water Crisis!</h1>
+                <p>Your family ran out of clean water</p>
+                <img src="assets/icons/charitywater logo.png" alt="Charity Water" class="loss-charity-logo">
+            </div>
+            
+            <!-- Crisis Card -->
+            <div class="crisis-card">
+                <h2>What happened:</h2>
+                <div class="crisis-items">
+                    <div class="crisis-item">
+                        <span class="crisis-icon">⏰</span>
+                        <span class="crisis-text">Timer ran out before completing the mission</span>
+                    </div>
+                    <div class="crisis-item">
+                        <span class="crisis-icon">💧</span>
+                        <span class="crisis-text">Family water needs exceeded collection rate</span>
+                    </div>
+                    <div class="crisis-item">
+                        <span class="crisis-icon">💡</span>
+                        <span class="crisis-text">Try using tools more strategically next time</span>
+                    </div>
+                </div>
+                
+                <div class="reality-section">
+                    <h3>The Reality:</h3>
+                    <p>771 million people face this challenge daily. They walk hours for water that's often unsafe. charity: water is working to change this.</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="try-again-btn" onclick="tryAgain()">Try Again</button>
+                    <button class="how-to-help-btn" onclick="window.open('https://charitywater.org', '_blank')">How to Help</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Game Logo - Bottom Left -->
+        <img src="assets/icons/Gamelogo.png" alt="Thirst Game Logo" class="loss-game-logo">
+    </div>
+
+    <!-- Win Screen -->
+    <div class="screen win-screen" id="winScreen">
+        <div class="win-content">
+            <!-- Mission Complete Header -->
+            <div class="mission-complete-header">
+                <div class="checkmark-icon">✓</div>
+                <h1>Mission Complete!</h1>
+                <p>You've secured clean water for your family</p>
+                <img src="assets/icons/charitywater logo.png" alt="Charity Water" class="win-charity-logo">
+            </div>
+            
+            <!-- Impact Card -->
+            <div class="impact-card">
+                <h2>Your Impact:</h2>
+                <div class="impact-items">
+                    <div class="impact-item">
+                        <span class="impact-icon">💧</span>
+                        <span class="impact-text">20 clean water drops collected</span>
+                    </div>
+                    <div class="impact-item">
+                        <span class="impact-icon">✅</span>
+                        <span class="impact-text">Family kept safe and hydrated</span>
+                    </div>
+                    <div class="impact-item">
+                        <span class="impact-icon">🎓</span>
+                        <span class="impact-text">Learned about water safety</span>
+                    </div>
+                </div>
+                
+                <div class="real-impact-section">
+                    <h3>Real Impact:</h3>
+                    <p>Every $30 donated to charity: water provides one person with clean water for life. <a href="https://charitywater.org" target="_blank">Learn more at charitywater.org</a></p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="play-again-btn" onclick="resetGame()">Play Again</button>
+                    <button class="learn-more-btn" onclick="window.open('https://charitywater.org', '_blank')">Learn More</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Game Logo - Bottom Left -->
+        <img src="assets/icons/Gamelogo.png" alt="Thirst Game Logo" class="win-game-logo">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
